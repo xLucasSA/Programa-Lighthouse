@@ -22,14 +22,13 @@ def main():
         for column in df.columns:
             if column.startswith("data"):
                 df[column] = df[column].apply(lambda x: correct_date(x))
-        
+
         dfs[archive] = df
     try:
         os.mkdir('Base de Dados Corrigida')
     except FileExistsError:
         for key, value in dfs.items():
             with pd.ExcelWriter(path_generate([local, 'Base de Dados Corrigida', key.split('.')[0] + '.xlsx']), engine='xlsxwriter') as writer:
-                value.to_excel(writer, index=False)
-        
+                value.to_excel(writer, index=False, sheet_name=key.split('.')[0])
 
 main()
